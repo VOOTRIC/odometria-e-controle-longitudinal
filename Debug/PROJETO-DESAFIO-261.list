@@ -877,6 +877,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
  8000806:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
  8000808:	81fb      	strh	r3, [r7, #14]
 
+        /*First Pulse logic*/
         if (first_pulse)
  800080a:	4b1b      	ldr	r3, [pc, #108]	@ (8000878 <HAL_GPIO_EXTI_Callback+0x88>)
  800080c:	781b      	ldrb	r3, [r3, #0]

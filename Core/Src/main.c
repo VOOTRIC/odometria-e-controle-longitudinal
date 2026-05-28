@@ -35,11 +35,16 @@
 #define NUM_FUROS	20
 #define TIMER_FREQ	100000
 
+/*----------------------------------------------------------------------------*/
 volatile uint16_t last_capture = 0;
 volatile uint8_t first_pulse = 1;
+/*----------------------------------------------------------------------------*/
 
+/*----------------------------------------------------------------------------*/
 volatile uint16_t delta_ticks = 0;
 volatile float rpm = 0.0f;
+/*----------------------------------------------------------------------------*/
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -243,6 +248,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
         uint16_t current_capture = __HAL_TIM_GET_COUNTER(&htim1);
 
+        /*First Pulse logic*/
         if (first_pulse)
         {
             last_capture = current_capture;
@@ -250,6 +256,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
         }
         else
         {
+        	/*D_t = Tf - Ti*/
             delta_ticks = (uint16_t)(current_capture - last_capture);
 
             last_capture = current_capture;
