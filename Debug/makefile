@@ -52,6 +52,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 PROJETO-DESAFIO-261.list \
 
+OBJCOPY_HEX += \
+PROJETO-DESAFIO-261.hex \
+
 OBJCOPY_BIN += \
 PROJETO-DESAFIO-261.bin \
 
@@ -78,6 +81,11 @@ PROJETO-DESAFIO-261.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_D
 	@echo 'Finished building: $@'
 	@echo ' '
 
+PROJETO-DESAFIO-261.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "PROJETO-DESAFIO-261.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 PROJETO-DESAFIO-261.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "PROJETO-DESAFIO-261.bin"
 	@echo 'Finished building: $@'
@@ -85,10 +93,10 @@ PROJETO-DESAFIO-261.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DE
 
 # Other Targets
 clean:
-	-$(RM) PROJETO-DESAFIO-261.bin PROJETO-DESAFIO-261.elf PROJETO-DESAFIO-261.list PROJETO-DESAFIO-261.map default.size.stdout
+	-$(RM) PROJETO-DESAFIO-261.bin PROJETO-DESAFIO-261.elf PROJETO-DESAFIO-261.hex PROJETO-DESAFIO-261.list PROJETO-DESAFIO-261.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
