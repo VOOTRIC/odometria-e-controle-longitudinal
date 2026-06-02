@@ -59,6 +59,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define pwm_output_Pin GPIO_PIN_3
+#define pwm_output_GPIO_Port GPIOA
 #define Hall_Pin GPIO_PIN_9
 #define Hall_GPIO_Port GPIOA
 #define Hall_EXTI_IRQn EXTI9_5_IRQn
