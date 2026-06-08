@@ -537,7 +537,7 @@ int main(void)
  8000626:	210c      	movs	r1, #12
  8000628:	4805      	ldr	r0, [pc, #20]	@ (8000640 <main+0x38>)
  800062a:	f001 fad1 	bl	8001bd0 <HAL_TIM_PWM_Start>
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 160); /**/
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 160); /*Duty Cycle PWM fixo*/
  800062e:	4b04      	ldr	r3, [pc, #16]	@ (8000640 <main+0x38>)
  8000630:	681b      	ldr	r3, [r3, #0]
  8000632:	22a0      	movs	r2, #160	@ 0xa0
