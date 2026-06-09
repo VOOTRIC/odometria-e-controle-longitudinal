@@ -34,6 +34,8 @@
 /*DEFINES e VARIÁVEIS GLOBAIS*/
 #define NUM_FUROS	20
 #define TIMER_FREQ	100000
+#define PWM_MAX		799
+#define PWM_MIN		0
 
 /*----------------------------------------------------------------------------*/
 volatile uint16_t last_capture = 0;
