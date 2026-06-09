@@ -37,11 +37,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  0001666f  00000000  00000000  0000e65e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00009a2e  00000000  00000000  00024ccd  2**0
+ 17 .debug_line   00009a30  00000000  00000000  00024ccd  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0008432c  00000000  00000000  0002e6fb  2**0
+ 18 .debug_str    0008432c  00000000  00000000  0002e6fd  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000b2a27  2**0
+ 19 .comment      00000043  00000000  00000000  000b2a29  2**0
                   CONTENTS, READONLY
  20 .debug_frame  000024cc  00000000  00000000  000b2a6c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -542,30 +542,31 @@ int main(void)
  8000630:	681b      	ldr	r3, [r3, #0]
  8000632:	22a0      	movs	r2, #160	@ 0xa0
  8000634:	641a      	str	r2, [r3, #64]	@ 0x40
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-	  if(new_rpm_measurement){
+
+    /* USER CODE BEGIN 3 */
+	  if (new_rpm_measurement)
  8000636:	4b13      	ldr	r3, [pc, #76]	@ (8000684 <main+0x7c>)
  8000638:	781b      	ldrb	r3, [r3, #0]
  800063a:	b2db      	uxtb	r3, r3
  800063c:	2b00      	cmp	r3, #0
  800063e:	d0fa      	beq.n	8000636 <main+0x2e>
-		  new_rpm_measurement =0;
+	  {
+	      new_rpm_measurement = 0;
  8000640:	4b10      	ldr	r3, [pc, #64]	@ (8000684 <main+0x7c>)
  8000642:	2200      	movs	r2, #0
  8000644:	701a      	strb	r2, [r3, #0]
 
-	        if (delta_ticks > 0)
+	      if (delta_ticks > 0)
  8000646:	4b10      	ldr	r3, [pc, #64]	@ (8000688 <main+0x80>)
  8000648:	881b      	ldrh	r3, [r3, #0]
  800064a:	b29b      	uxth	r3, r3
  800064c:	2b00      	cmp	r3, #0
  800064e:	d0f2      	beq.n	8000636 <main+0x2e>
-	        {
-	            rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks);
+	      {
+	          rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks);
  8000650:	4b0d      	ldr	r3, [pc, #52]	@ (8000688 <main+0x80>)
  8000652:	881b      	ldrh	r3, [r3, #0]
  8000654:	b29b      	uxth	r3, r3
@@ -584,7 +585,7 @@ int main(void)
  8000672:	461a      	mov	r2, r3
  8000674:	4b06      	ldr	r3, [pc, #24]	@ (8000690 <main+0x88>)
  8000676:	601a      	str	r2, [r3, #0]
-	  if(new_rpm_measurement){
+	  if (new_rpm_measurement)
  8000678:	e7dd      	b.n	8000636 <main+0x2e>
  800067a:	bf00      	nop
  800067c:	20000038 	.word	0x20000038
@@ -1211,9 +1212,9 @@ void HAL_MspInit(void)
 
   /* System interrupt init*/
 
-  /** DISABLE: JTAG-DP Disabled and SW-DP Disabled
+  /** NOJTAG: JTAG-DP Disabled and SW-DP Enabled
   */
-  __HAL_AFIO_REMAP_SWJ_DISABLE();
+  __HAL_AFIO_REMAP_SWJ_NOJTAG();
  8000a02:	4b0a      	ldr	r3, [pc, #40]	@ (8000a2c <HAL_MspInit+0x60>)
  8000a04:	685b      	ldr	r3, [r3, #4]
  8000a06:	60fb      	str	r3, [r7, #12]
@@ -1221,7 +1222,7 @@ void HAL_MspInit(void)
  8000a0a:	f023 63e0 	bic.w	r3, r3, #117440512	@ 0x7000000
  8000a0e:	60fb      	str	r3, [r7, #12]
  8000a10:	68fb      	ldr	r3, [r7, #12]
- 8000a12:	f043 6380 	orr.w	r3, r3, #67108864	@ 0x4000000
+ 8000a12:	f043 7300 	orr.w	r3, r3, #33554432	@ 0x2000000
  8000a16:	60fb      	str	r3, [r7, #12]
  8000a18:	4a04      	ldr	r2, [pc, #16]	@ (8000a2c <HAL_MspInit+0x60>)
  8000a1a:	68fb      	ldr	r3, [r7, #12]

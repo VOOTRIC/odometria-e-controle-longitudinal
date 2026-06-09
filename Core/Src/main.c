@@ -120,15 +120,17 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  if(new_rpm_measurement){
-		  new_rpm_measurement =0;
 
-	        if (delta_ticks > 0)
-	        {
-	            rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks);
-	        }
-	  }
     /* USER CODE BEGIN 3 */
+	  if (new_rpm_measurement)
+	  {
+	      new_rpm_measurement = 0;
+
+	      if (delta_ticks > 0)
+	      {
+	          rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks);
+	      }
+	  }
   }
   /* USER CODE END 3 */
 }
