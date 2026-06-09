@@ -40,11 +40,12 @@
 /*----------------------------------------------------------------------------*/
 volatile uint16_t last_capture = 0;
 volatile uint8_t first_pulse = 1;
-/*----------------------------------------------------------------------------*/
-
-/*----------------------------------------------------------------------------*/
 volatile uint16_t delta_ticks = 0;
-volatile float rpm = 0.0f;
+volatile uint8_t new_rpm_measurement = 0;
+
+float rpm = 0.0f;
+
+
 /*----------------------------------------------------------------------------*/
 
 /* USER CODE END PD */
@@ -119,7 +120,14 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+	  if(new_rpm_measurement){
+		  new_rpm_measurement =0;
 
+	        if (delta_ticks > 0)
+	        {
+	            rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks);
+	        }
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -328,13 +336,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
         {
         	/*D_t = Tf - Ti*/
             delta_ticks = (uint16_t)(current_capture - last_capture);
-
             last_capture = current_capture;
-
-            if (delta_ticks > 0)
-            {
-                rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks);
-            }
+            new_rpm_measurement = 1;
         }
     }
 }
