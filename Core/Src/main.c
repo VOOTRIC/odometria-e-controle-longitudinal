@@ -44,6 +44,7 @@ typedef struct{
 #define TIMER_FREQ	100000
 #define PWM_MAX		799
 #define PWM_MIN		0
+#define SETPOINT	600
 
 /*----------------------------------------------------------------------------*/
 volatile uint16_t last_capture = 0;
@@ -52,7 +53,7 @@ volatile uint16_t delta_ticks = 0;
 volatile uint8_t new_rpm_measurement = 0;
 
 float rpm = 0.0f;
-
+float setpoint  = 600;
 
 /*----------------------------------------------------------------------------*/
 
@@ -80,7 +81,7 @@ static void MX_TIM2_Init(void);
 /*PID init Function*/
 void init_PID(PID *pid, float Kp, float Ki, float Kd, float min_output, float max_output);
 /*PID Update function*/
-float pid_update(PID *pid, float measurement, volatile uint16_t delta_ticks);
+float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t delta_ticks);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -370,8 +371,24 @@ void init_PID(PID *pid, float Kp, float Ki, float Kd, float min_output, float ma
 	pid->max_output = max_output;
 }
 
-float pid_update(PID *pid, float measurement, volatile uint16_t delta_ticks){
+float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t delta_ticks){
 
+	float error = setpoint - measurement;
+
+	// Proportional
+	float P = pid->Kp * error;
+
+	//Integral
+	pid->integral+= error * delta_ticks;
+	float I = pid->integral * pid->Ki;
+
+	//Derivative
+	float D = (pid->Kd * (error - pid->prev_error))/delta_ticks;
+	pid->prev_error = error;
+
+	float output = P + I + D;
+
+	return output;
 }
 
 /* USER CODE END 4 */
