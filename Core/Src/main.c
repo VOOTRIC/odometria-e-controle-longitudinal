@@ -26,7 +26,15 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+typedef struct{
+	float Kp, Ki, Kd; 				// Gains
 
+	float integral;					// Accumulated error
+
+	float prev_error;				// PrevError for the derivative term
+	float min_output, max_output;	// Actuator limits
+
+} PID;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -111,7 +119,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start(&htim1);
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 160); /*Duty Cycle PWM fixo*/
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 320); /*Duty Cycle PWM fixo*/
 
   /* USER CODE END 2 */
 
