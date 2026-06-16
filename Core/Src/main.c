@@ -77,7 +77,10 @@ static void MX_GPIO_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
-void init_PID(PID *pid, float Kp, float Ki, float Kd);
+/*PID init Function*/
+void init_PID(PID *pid, float Kp, float Ki, float Kd, float min_output, float max_output);
+/*PID Update function*/
+float pid_update(PID *pid, float measurement, volatile uint16_t delta_ticks);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -355,12 +358,21 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 /*=========================================================================================*/
 
 
-void init_PID(PID *pid, float Kp, float Ki, float Kd){
+void init_PID(PID *pid, float Kp, float Ki, float Kd, float min_output, float max_output){
 
+	pid->Kp=Kp;	pid->Ki=Ki;	pid->Kd=Kd;   	// Set gain values
 
+	pid->integral = 0.0f; 					// Set accumulated init value
 
+	pid->prev_error = 0.0f;					// Set prev_error init value
+
+	pid->min_output = min_output;
+	pid->max_output = max_output;
 }
 
+float pid_update(PID *pid, float measurement, volatile uint16_t delta_ticks){
+
+}
 
 /* USER CODE END 4 */
 
