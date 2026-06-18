@@ -374,17 +374,21 @@ void init_PID(PID *pid, float Kp, float Ki, float Kd, float min_output, float ma
 
 float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t delta_ticks){
 
+	//Converte delta_ticks para segundos
+	float dt =  (float)delta_ticks/TIMER_FREQ;
+
+
 	float error = setpoint - measurement;
 
 	// Proportional
 	float P = pid->Kp * error;
 
 	//Integral
-	pid->integral+= error * delta_ticks;
+	pid->integral+= error * dt;
 	float I = pid->integral * pid->Ki;
 
 	//Derivative
-	float D = (pid->Kd * (error - pid->prev_error))/delta_ticks;
+	float D = (pid->Kd * (error - pid->prev_error))/dt;
 	pid->prev_error = error;
 
 	float output = P + I + D;
@@ -392,12 +396,12 @@ float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t 
 	//Anti wind-up
 	if (output > pid->max_output){
 		output = pid->max_output;
-		output	-= error * delta_ticks;
+		output	-= error * dt;
 	}
 
 	else if(output < pid->min_output){
 		output = pid->min_output;
-		output -= error * delta_ticks;
+		output -= error * dt;
 	}
 
 	return output;
