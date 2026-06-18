@@ -374,7 +374,7 @@ void init_PID(PID *pid, float Kp, float Ki, float Kd, float min_output, float ma
 
 float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t delta_ticks){
 
-	//Converte delta_ticks para segundos
+	//delta-ticks convertion to seconds
 	float dt =  (float)delta_ticks/TIMER_FREQ;
 
 
