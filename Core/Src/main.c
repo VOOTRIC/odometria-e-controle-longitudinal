@@ -18,7 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "stdio.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -85,6 +85,8 @@ static void MX_USART2_UART_Init(void);
 void init_PID(PID *pid, float Kp, float Ki, float Kd, float min_output, float max_output);
 /*PID Update function*/
 float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t delta_ticks);
+
+int _io_putchar(int ch);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -442,6 +444,13 @@ float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t 
 	}
 
 	return output;
+}
+
+int __io_putchar(int ch){
+
+	HAL_UART_Transmit(&huart2, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
+
+	return ch;
 }
 
 /* USER CODE END 4 */
