@@ -371,6 +371,7 @@ void init_PID(PID *pid, float Kp, float Ki, float Kd, float min_output, float ma
 	pid->max_output = max_output;
 }
 
+
 float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t delta_ticks){
 
 	float error = setpoint - measurement;
@@ -387,6 +388,17 @@ float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t 
 	pid->prev_error = error;
 
 	float output = P + I + D;
+
+	//Anti wind-up
+	if (output > pid->max_output){
+		output = pid->max_output;
+		output	-= error * delta_ticks;
+	}
+
+	else if(output < pid->min_output){
+		output = pid->min_output;
+		output -= error * delta_ticks;
+	}
 
 	return output;
 }

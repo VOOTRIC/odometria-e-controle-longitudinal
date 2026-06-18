@@ -5,5 +5,5 @@
 ../Core/Src/main.c:296:13:MX_GPIO_Init	1
 ../Core/Src/main.c:333:6:HAL_GPIO_EXTI_Callback	3
 ../Core/Src/main.c:362:6:init_PID	1
-../Core/Src/main.c:374:7:pid_update	1
-../Core/Src/main.c:400:6:Error_Handler	1
+../Core/Src/main.c:375:7:pid_update	3
+../Core/Src/main.c:412:6:Error_Handler	1
