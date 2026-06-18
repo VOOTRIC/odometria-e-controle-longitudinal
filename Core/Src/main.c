@@ -137,6 +137,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -147,6 +148,7 @@ int main(void)
 	      if (delta_ticks > 0)
 	      {
 	          rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks);
+	    	  printf("%2.f\n", rpm);
 	      }
 	  }
   }
