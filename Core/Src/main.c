@@ -396,12 +396,12 @@ float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t 
 	//Anti wind-up
 	if (output > pid->max_output){
 		output = pid->max_output;
-		output	-= error * dt;
+		pid->max_output	-= error * dt;
 	}
 
 	else if(output < pid->min_output){
 		output = pid->min_output;
-		output -= error * dt;
+		pid->min_output -= error * dt;
 	}
 
 	return output;
