@@ -86,7 +86,7 @@ void init_PID(PID *pid, float Kp, float Ki, float Kd, float min_output, float ma
 /*PID Update function*/
 float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t delta_ticks);
 
-int _io_putchar(int ch);
+int __io_putchar(int ch);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
