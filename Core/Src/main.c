@@ -18,10 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "stdio.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -437,12 +436,12 @@ float pid_update(PID *pid, float setpoint, float measurement, volatile uint16_t 
 	//Anti wind-up
 	if (output > pid->max_output){
 		output = pid->max_output;
-		pid->max_output	-= error * dt;
+		pid->integral -= error * dt;
 	}
 
 	else if(output < pid->min_output){
 		output = pid->min_output;
-		pid->min_output -= error * dt;
+		pid->integral  -= error * dt;
 	}
 
 	return output;
