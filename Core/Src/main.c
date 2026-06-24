@@ -147,6 +147,7 @@ int main(void)
 	      {
 	          rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks);
 	    	  printf("RPM: %2.f\n", rpm);
+	    	  HAL_Delay(1000);
 	      }
 	  }
   }
