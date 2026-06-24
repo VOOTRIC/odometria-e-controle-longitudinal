@@ -146,7 +146,7 @@ int main(void)
 	      if (delta_ticks > 0)
 	      {
 	          rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks);
-	    	  printf("%2.f\n", rpm);
+	    	  printf("RPM: %2.f\n", rpm);
 	      }
 	  }
   }
