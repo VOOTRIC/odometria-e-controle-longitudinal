@@ -50,8 +50,9 @@ volatile uint8_t first_pulse = 1;
 volatile uint16_t delta_ticks = 0;
 volatile uint8_t new_rpm_measurement = 0;
 
+
 float rpm = 0.0f;
-float setpoint  = 600;
+float setpoint  = 100;
 
 /*----------------------------------------------------------------------------*/
 
@@ -100,7 +101,11 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
+	/*Eu deveria fazer essas declarações aqui ou dentro de uma callback?*/
+	PID motor_PID;
+	init_PID(&motor_PID, 1.5, 0.0,0.0, PWM_MIN, PWM_MAX);
 
+	float duty_cycle = 0; /*Essa declaração pode dar conflito por RPM só ser configurado dentro de while?*/
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -127,7 +132,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start(&htim1);
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 320); /*Duty Cycle PWM fixo*/
+  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 0); /*Duty Cycle PWM fixo*/
 
   /* USER CODE END 2 */
 
@@ -146,8 +151,11 @@ int main(void)
 	      if (delta_ticks > 0)
 	      {
 	          rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks);
-	    	  printf("RPM: %2.f\n", rpm);
-	    	  HAL_Delay(1000);
+	          duty_cycle = pid_update(&motor_PID, setpoint, rpm, delta_ticks);
+
+	          __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, (uint16_t)duty_cycle);
+	    	  printf("RPM: %.2f | Proporcional: %.2f | PID: %.2f\r\n", rpm, duty_cycle);
+	    	  HAL_Delay(50);
 	      }
 	  }
   }
