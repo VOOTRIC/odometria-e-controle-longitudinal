@@ -52,7 +52,7 @@ volatile uint8_t new_rpm_measurement = 0;
 
 
 float rpm = 0.0f;
-float setpoint  = 100;
+float setpoint  = 160;
 
 /*----------------------------------------------------------------------------*/
 
@@ -150,11 +150,13 @@ int main(void)
 
 	      if (delta_ticks > 0)
 	      {
-	          rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks);
+	          rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks); // RPM calc (delta_ticks retirado)
+
 	          duty_cycle = pid_update(&motor_PID, setpoint, rpm, delta_ticks);
 
+
 	          __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, (uint16_t)duty_cycle);
-	    	  printf("RPM: %.2f | Proporcional: %.2f | PID: %.2f\r\n", rpm, duty_cycle);
+	    	  printf("RPM: %.2f | PID: %.2f\r\n", rpm, duty_cycle);
 	    	  HAL_Delay(50);
 	      }
 	  }
