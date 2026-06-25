@@ -39,13 +39,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   0000d002  00000000  00000000  0002f782  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0008c080  00000000  00000000  0003c784  2**0
+ 18 .debug_str    0008c07d  00000000  00000000  0003c784  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000c8804  2**0
+ 19 .comment      00000043  00000000  00000000  000c8801  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  0000429c  00000000  00000000  000c8848  2**2
+ 20 .debug_frame  0000429c  00000000  00000000  000c8844  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000069  00000000  00000000  000ccae4  2**0
+ 21 .debug_line_str 00000069  00000000  00000000  000ccae0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1443,7 +1443,7 @@ int main(void)
  800108a:	f04f 517f 	mov.w	r1, #1069547520	@ 0x3fc00000
  800108e:	f000 fa37 	bl	8001500 <init_PID>
 
-	float duty_cycle = 0; /*Essa declaração pode dar conflito por RPM só ser configurado dentro de while?*/
+	float pid_var = 0; /*Essa declaração pode dar conflito por RPM só ser configurado dentro de while?*/
  8001092:	f04f 0300 	mov.w	r3, #0
  8001096:	61fb      	str	r3, [r7, #28]
   /* USER CODE END 1 */
@@ -1530,7 +1530,7 @@ int main(void)
  8001104:	4b1b      	ldr	r3, [pc, #108]	@ (8001174 <main+0x104>)
  8001106:	601a      	str	r2, [r3, #0]
 
-	          duty_cycle = pid_update(&motor_PID, setpoint, rpm, delta_ticks);
+	          pid_var = pid_update(&motor_PID, setpoint, rpm, delta_ticks);
  8001108:	4b1b      	ldr	r3, [pc, #108]	@ (8001178 <main+0x108>)
  800110a:	6819      	ldr	r1, [r3, #0]
  800110c:	4b19      	ldr	r3, [pc, #100]	@ (8001174 <main+0x104>)
@@ -1543,7 +1543,7 @@ int main(void)
  800111c:	61f8      	str	r0, [r7, #28]
 
 
-	          __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, (uint16_t)duty_cycle);
+	          __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, (uint16_t)pid_var);
  800111e:	69f8      	ldr	r0, [r7, #28]
  8001120:	f7ff ff86 	bl	8001030 <__aeabi_f2uiz>
  8001124:	4603      	mov	r3, r0
@@ -1551,7 +1551,7 @@ int main(void)
  8001128:	4b0e      	ldr	r3, [pc, #56]	@ (8001164 <main+0xf4>)
  800112a:	681b      	ldr	r3, [r3, #0]
  800112c:	641a      	str	r2, [r3, #64]	@ 0x40
-	    	  printf("RPM: %.2f | PID: %.2f\r\n", rpm, duty_cycle);
+	    	  printf("RPM: %.2f | PID: %.2f\r\n", rpm, pid_var);
  800112e:	4b11      	ldr	r3, [pc, #68]	@ (8001174 <main+0x104>)
  8001130:	681b      	ldr	r3, [r3, #0]
  8001132:	4618      	mov	r0, r3

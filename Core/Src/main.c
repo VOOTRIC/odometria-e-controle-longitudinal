@@ -105,7 +105,7 @@ int main(void)
 	PID motor_PID;
 	init_PID(&motor_PID, 1.5, 0.0,0.0, PWM_MIN, PWM_MAX);
 
-	float duty_cycle = 0; /*Essa declaração pode dar conflito por RPM só ser configurado dentro de while?*/
+	float pid_var = 0; /*Essa declaração pode dar conflito por RPM só ser configurado dentro de while?*/
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -152,11 +152,11 @@ int main(void)
 	      {
 	          rpm = (60.0f * TIMER_FREQ) / (NUM_FUROS * delta_ticks); // RPM calc (delta_ticks retirado)
 
-	          duty_cycle = pid_update(&motor_PID, setpoint, rpm, delta_ticks);
+	          pid_var = pid_update(&motor_PID, setpoint, rpm, delta_ticks);
 
 
-	          __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, (uint16_t)duty_cycle);
-	    	  printf("RPM: %.2f | PID: %.2f\r\n", rpm, duty_cycle);
+	          __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, (uint16_t)pid_var);
+	    	  printf("RPM: %.2f | PID: %.2f\r\n", rpm, pid_var);
 	    	  HAL_Delay(50);
 	      }
 	  }
